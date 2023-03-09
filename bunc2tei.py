@@ -3,12 +3,15 @@ import xml.etree.ElementTree as ET
 
 def main():
     corpus = "<teiCorpus></teiCorpus>"
-    root = ET.fromstring(corpus)
+    corpusTree = ET.parse(corpus)
+    corpusRoot = ET.fromstring(corpus)
     path = "/home/spassova/BGCorpusExamples/"
     files = os.listdir(path)
     for j in range(len(files)):
-        processing(path + files[j])
-        teiDoc = ET.SubElement(root, "teiDoc")
+        processing(path + files[j]) 
+
+    ET.indent(corpusTree, "  ")
+    corpusTree.write(f"{j:02}" + "_" + "output.xml", encoding="utf-8", xml_declaration=True, method="xml", short_empty_elements=True)
     
 
 def processing(file):
@@ -89,6 +92,10 @@ def processing(file):
         for p in texts[i]:
             body.append(p)
 
-    ET.indent(tree, "  ")
+
+    corpusRoot.append(root)    
     ET.register_namespace("", "http://www.tei-c.org/ns/1.0")
-    tree.write(f"{j:02}" + "_" + "output.xml", encoding="utf-8", xml_declaration=True, method="xml", short_empty_elements=True)
+
+    return 
+    
+
