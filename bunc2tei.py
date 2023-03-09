@@ -1,12 +1,15 @@
 import os
 import xml.etree.ElementTree as ET
 
+# Path to documents
 path = "/home/spassova/BGCorpusExamples"
 files = os.listdir(path)
 
+# Parse tree and get root
 tree = ET.parse(path + "/" + files[0])
 root = tree.getroot()
 
+# Store metadata and texts in lists
 titles = root.findall(".//*[@type='title']")
 domains = root.findall(".//*[@type='domain']")
 pageURLs = root.findall(".//*[@type='pageURL']")
@@ -28,6 +31,7 @@ mainImageHeights = root.findall(".//*[@type='mainImageHeight']")
 mainImageThumbnailURLs = root.findall(".//*[@type='mainImageThumbnailURL']")
 texts = []
 
+# Count text elements and remove metadata
 number_of_texts = 0
 for text in root.iter("{http://www.tei-c.org/ns/1.0}text"):
     number_of_texts+=1
@@ -41,13 +45,14 @@ for text in root.iter("{http://www.tei-c.org/ns/1.0}text"):
                     texts.append(div2)
                     
 
-#number_of_texts = len(root.findall("{http://www.tei-c.org/ns/1.0}text"))
-
+# Remove all elements from root
 for elem in root.findall("*"):
     root.remove(elem)
 
+# Rename root
 root.tag = "teiCorpus"
 
+# Create i5 structure
 for i in range(number_of_texts):
     tei = ET.SubElement(root, "TEI")
     teiHeader = ET.SubElement(tei, "teiHeader")
@@ -78,7 +83,10 @@ for i in range(number_of_texts):
     ref = ET.SubElement(pubPlace, "ref")
     ref.set("type", "page_url")
     ref.set("target", pageURLs[i].text)
-
+    text = ET.SubElement(tei, "text")
+    body = ET.SubElement(text, "body")
+    for p in texts[i]:
+        body.append(p)
 
 
 
