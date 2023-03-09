@@ -74,6 +74,10 @@ for i in range(number_of_texts):
     pubDateTime = ET.SubElement(imprint, "pubDate")
     pubDateTime.set("type", "time")
     pubDateTime.text = timesPublished[i].text
+    pubPlace = ET.SubElement(imprint, "pubPlace")
+    ref = ET.SubElement(pubPlace, "ref")
+    ref.set("type", "page_url")
+    ref.set("target", pageURLs[i].text)
 
 
 
