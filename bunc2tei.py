@@ -89,6 +89,7 @@ for i in range(number_of_texts):
         body.append(p)
 
 
+
 ET.indent(tree, "  ")
 ET.register_namespace("", "http://www.tei-c.org/ns/1.0")
 tree.write("04_output.xml", encoding="utf-8", xml_declaration=True, method="xml", short_empty_elements=True)
