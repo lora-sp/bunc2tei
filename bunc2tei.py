@@ -1,45 +1,60 @@
-import os
+import os, sys
 import xml.etree.ElementTree as ET
+from xml.dom import minidom
+
 
 def main():
-    corpus = "<teiCorpus></teiCorpus>"
-    corpusTree = ET.parse(corpus)
-    corpusRoot = ET.fromstring(corpus)
-    path = "/home/spassova/BGCorpusExamples/"
-    files = os.listdir(path)
-    for j in range(len(files)):
-        processing(path + files[j]) 
+    # Create corpus structure from string and save into file 
+    corpus = "<teiCorpus>\n</teiCorpus>"
+    origRoot = ET.fromstring(corpus)
+    corpusStr = minidom.parseString(ET.tostring(origRoot)).toprettyxml(indent="  ")
+    with open("tree_structure.xml", "w") as f:
+        f.write(corpusStr)
 
+    # Process all documents and append to corpusTree
+    #path = "./BGCorpusExamples/"
+    #files = os.listdir(path)
+    process(0, sys.argv[1])
+    #process(sys.argv[2]) 
+    # Parse corpus tree, indent and output
+    corpusTree = ET.parse("tree_structure.xml")
     ET.indent(corpusTree, "  ")
-    corpusTree.write(f"{j:02}" + "_" + "output.xml", encoding="utf-8", xml_declaration=True, method="xml", short_empty_elements=True)
-    
+    corpusTree.write("output.p5.xml", encoding='utf-8', xml_declaration=True, method='xml', short_empty_elements=True)
 
-def processing(file):
-# Parse tree and get root
+
+def process(j, file):
+    #j = 0
+    # Parse corpus tree and get corpus root
+    corpusTree = ET.parse("tree_structure.xml")
+    corpusRoot = corpusTree.getroot()
+
+    # Parse document tree and get root
     tree = ET.parse(file)
     root = tree.getroot()
-# Store metadata and texts in lists
+
+    # Store metadata and texts in lists
     titles = root.findall(".//*[@type='title']")
-    domains = root.findall(".//*[@type='domain']")
+    #domains = root.findall(".//*[@type='domain']")
     pageURLs = root.findall(".//*[@type='pageURL']")
-    ids = root.findall(".//*[@type='id']")
-    mainImageURLs = root.findall(".//*[@type='mainImageURL']")
-    mainImageTexts = root.findall(".//*[@type='mainImageTexts']")
-    mainImageSources = root.findall(".//*[@type='mainImageSources']")
+    #ids = root.findall(".//*[@type='id']")
+    #mainImageURLs = root.findall(".//*[@type='mainImageURL']")
+    #mainImageTexts = root.findall(".//*[@type='mainImageTexts']")
+    #mainImageSources = root.findall(".//*[@type='mainImageSources']")
     authors = root.findall(".//*[@type='authors']")
-    authorURLs = root.findall(".//*[@type='authorURLs']")
-    categories = root.findall(".//*[@type='category']")
-    subCategories = root.findall(".//*[@type='subCategory']")
-    tags = root.findall(".//*[@type='tags']")
+    #authorURLs = root.findall(".//*[@type='authorURLs']")
+    #categories = root.findall(".//*[@type='category']")
+    #subCategories = root.findall(".//*[@type='subCategory']")
+    #tags = root.findall(".//*[@type='tags']")
     datesPublished = root.findall(".//*[@type='datePublished']")
     timesPublished = root.findall(".//*[@type='timePublished']")
-    datesModified = root.findall(".//*[@type='dateModified']")
-    timesModified = root.findall(".//*[@type='timeModified']")
-    mainImageWidths = root.findall(".//*[@type='mainImageWidth']")
-    mainImageHeights = root.findall(".//*[@type='mainImageHeight']")
-    mainImageThumbnailURLs = root.findall(".//*[@type='mainImageThumbnailURL']")
+    #datesModified = root.findall(".//*[@type='dateModified']")
+    #timesModified = root.findall(".//*[@type='timeModified']")
+    #mainImageWidths = root.findall(".//*[@type='mainImageWidth']")
+    #mainImageHeights = root.findall(".//*[@type='mainImageHeight']")
+    #mainImageThumbnailURLs = root.findall(".//*[@type='mainImageThumbnailURL']")
     texts = []
-# Count text elements and remove metadata
+
+    # Count text elements and remove metadata
     number_of_texts = 0
     for text in root.iter("{http://www.tei-c.org/ns/1.0}text"):
         number_of_texts+=1
@@ -51,19 +66,22 @@ def processing(file):
                             div2.remove(div3)
 
                         texts.append(div2)
-# Remove all elements from root
+
+    # Remove all elements from root
     for elem in root.findall("*"):
         root.remove(elem)
-# Rename root
+
+    # Rename root
     root.tag = "teiDoc"
-# Create i5 structure
+
+    # Create target structure
     for i in range(number_of_texts):
         tei = ET.SubElement(root, "TEI")
         teiHeader = ET.SubElement(tei, "teiHeader")
         fileDesc = ET.SubElement(teiHeader, "fileDesc")
         titleStmt = ET.SubElement(fileDesc, "titleStmt")
         textSigle = ET.SubElement(titleStmt, "textSigle")
-        textSigle.text = "BNC/" + f"{j:02}" + "." + f"{i:05}"
+        textSigle.text = "BNC/" + f"{j:03}" + "." + f"{i:05}"
         sourceDesc = ET.SubElement(fileDesc, "sourceDesc")
         analytic = ET.SubElement(sourceDesc, "analytic")
         htitle = ET.SubElement(analytic, "h.title")
@@ -96,6 +114,6 @@ def processing(file):
     corpusRoot.append(root)    
     ET.register_namespace("", "http://www.tei-c.org/ns/1.0")
 
-    return 
-    
 
+if __name__ == "__main__":
+    main()
