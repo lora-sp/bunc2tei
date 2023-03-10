@@ -1,6 +1,8 @@
 import os, sys
 import xml.etree.ElementTree as ET
 from xml.dom import minidom
+from lxml import etree
+from io import StringIO
 
 
 def main():
@@ -11,27 +13,32 @@ def main():
     with open("tree_structure.xml", "w") as f:
         f.write(corpusStr)
 
-    # Process all documents and append to corpusTree
-    #path = "./BGCorpusExamples/"
-    #files = os.listdir(path)
-    process(0, sys.argv[1])
-    #process(sys.argv[2]) 
-    # Parse corpus tree, indent and output
+    # Parse corpus tree
     corpusTree = ET.parse("tree_structure.xml")
+    corpusRoot = corpusTree.getroot()
+
+    # Process documents and append to corpus tree
+    for j in range(1, len(sys.argv)):
+        try:
+            currentTree = process(j-1, sys.argv[j])
+            currentRoot = currentTree.getroot()
+            #print(currentRoot.tag)
+            corpusRoot.append(currentRoot)
+        except:
+            print("sorry")
+            continue
+
+    # Indent and save tree
     ET.indent(corpusTree, "  ")
     corpusTree.write("output.p5.xml", encoding='utf-8', xml_declaration=True, method='xml', short_empty_elements=True)
 
 
 def process(j, file):
-    #j = 0
-    # Parse corpus tree and get corpus root
-    corpusTree = ET.parse("tree_structure.xml")
-    corpusRoot = corpusTree.getroot()
-
     # Parse document tree and get root
     tree = ET.parse(file)
     root = tree.getroot()
-
+    ET.register_namespace("", "http://www.tei-c.org/ns/1.0")
+ 
     # Store metadata and texts in lists
     titles = root.findall(".//*[@type='title']")
     #domains = root.findall(".//*[@type='domain']")
@@ -110,10 +117,7 @@ def process(j, file):
         for p in texts[i]:
             body.append(p)
 
-
-    corpusRoot.append(root)    
-    ET.register_namespace("", "http://www.tei-c.org/ns/1.0")
+    return tree
 
 
-if __name__ == "__main__":
-    main()
+main()
