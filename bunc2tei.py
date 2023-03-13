@@ -10,11 +10,15 @@ def main():
     corpus = "<teiCorpus>\n</teiCorpus>"
     origRoot = ET.fromstring(corpus)
     corpusStr = minidom.parseString(ET.tostring(origRoot)).toprettyxml(indent="  ")
-    with open("/input/tree_structure.xml", "w") as f:
+    if not os.path.exists('input'):
+        os.makedirs("input")
+    if not os.path.exists('output'):
+        os.makedirs("output")
+    with open("input/tree_structure.xml", "w") as f:
         f.write(corpusStr)
 
     # Parse corpus tree
-    corpusTree = ET.parse("/input/tree_structure.xml")
+    corpusTree = ET.parse("input/tree_structure.xml")
     corpusRoot = corpusTree.getroot()
 
     # Process documents and append to corpus tree
@@ -30,7 +34,7 @@ def main():
 
     # Indent and save tree
     ET.indent(corpusTree, "  ")
-    corpusTree.write("/output/corpus.p5.xml", encoding='utf-8', xml_declaration=True, method='xml', short_empty_elements=True)
+    corpusTree.write("output/corpus.p5.xml", encoding='utf-8', xml_declaration=True, method='xml', short_empty_elements=True)
 
 
 def convert(j, file):
