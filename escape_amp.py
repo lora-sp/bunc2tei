@@ -5,7 +5,7 @@ import xml.etree.ElementTree as ET
 def escape(file):        
     with open(sys.argv[i], "r+") as f:
         file = f.read()
-        file = re.sub('&(?!gt;|apos;|quot;|lt;|amp;)', '&amp', file)
+        file = re.sub('&(?!gt;|apos;|quot;|lt;|amp;)', '&amp;', file)
         f.seek(0)
         f.write(file)
         f.truncate()
