@@ -29,7 +29,7 @@ def main():
             #print(currentRoot.tag)
             corpusRoot.append(currentRoot)
         except:
-            print("sorry")
+            print(sys.argv[j])
             continue
 
     # Indent and save tree

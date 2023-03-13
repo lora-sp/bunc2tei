@@ -1,0 +1,4 @@
+Ill-formed documents:
+
+- 132 instances of unescaped "&" in text-elements
+- doc "investor.bg - 2020-01-04.xml" contains ill-formed line "<p><div</p>" (line 168)
