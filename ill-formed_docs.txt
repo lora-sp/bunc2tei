@@ -1,0 +1,9 @@
+Ill-formed documents:
+
+- 132 instances of unescaped "&" in text-elements (fixed)
+- doc "investor.bg - 2020-01-04.xml" contains ill-formed line "<p><div</p>" (line 168)
+- doc "svobodnaevropa.bg - 2020-01-04.xml" lacks author name for second text
+- doc "webcafe.bg - 2020-01-10.xml" lacks at least one author name
+- in all of the 10 docs from dnevnik.bg, there is a string of the following form: 
+[class*="general-article"] .article-content > p:first-of-type::first-letter { float: none; font-size: 17px; line-height: 1.42em; padding: 0; } 
+it can be found by the command grep -e "\[.*\}" *.xml
