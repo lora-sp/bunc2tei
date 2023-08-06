@@ -1,5 +1,4 @@
 import sys
-from turtle import setx
 import xml.etree.ElementTree as ET
 from tqdm import tqdm
 
