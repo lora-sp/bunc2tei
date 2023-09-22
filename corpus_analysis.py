@@ -2,11 +2,32 @@ from KorAPClient import KorAPConnection
 bunc = KorAPConnection(KorAPUrl = "http://localhost:64543/", verbose=True)
 dereko = KorAPConnection(verbose = True)
 
-q = bunc.corpusQuery("[ud/l=голям] [ud/p=NOUN]", metadataOnly=False)
+### 1.: searching for LVCs in both languages in a collocational analysis
+
+vlizam = bunc.collocationAnalysis("focus({[ud/l=влизам] в} [ud/p=NOUN])",
+					leftContextSize = 0,
+					rightContextSize = 1, 
+					exactFrequencies = False,
+					searchHitsSampleLimit=1000,
+					topCollocatesLimit = 20)
+
+treten = dereko.collocationAnalysis("focus(in [tt/p=NN] {[tt/l=treten]})",
+					leftContextSize = 1,
+					rightContextSize = 0, 
+					exactFrequencies = False,
+					searchHitsSampleLimit=1000,
+					topCollocatesLimit = 20)
+
+
+
+
+###2.: comparing the word много in its noun and adjective modifying functions in Bulgarian
+
+q = bunc.corpusQuery("много [ud/p=NOUN]", metadataOnly=False)
 q = q.fetchAll(verbose=True)
 print(q)
 
-
-r = dereko.corpusQuery("[tt/l=groß] [tt/p=NN]", metadataOnly=False)
-r = r.fetchNext(verbose=True)
+r = bunc.corpusQuery("много [ud/p=ADJ]", metadataOnly=False)
+r = r.fetchAll(verbose=True)
 print(r)
+
