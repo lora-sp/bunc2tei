@@ -1,3 +1,5 @@
+(This list holds for the online newspaper data set, only)
+
 Ill-formed documents:
 
 - 132 instances of unescaped "&" in text-elements (fixed)

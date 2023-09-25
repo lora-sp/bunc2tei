@@ -1,10 +1,10 @@
-## Creating a I5-corpus file out of XML-TEI documents from various Bulgarian corpora
+## Converting various Bulgarian XML-TEI documents into an I5 corpus file
 
-This tool contains various python scripts. The scripts `escape.py`, `prep_lit.py` and `prep_parl.py` are for preprocessing. The script `explore_lit.py` simply explores the Chitanka corpus (literature dataset). Finally, the script `bunc2tei.py` is for converting the corpus data into the I5 schema, and the script `test_bunc2tei.py` is a PyTest file to test the conversion script. 
+This tool contains various python scripts. The scripts `escape.py`, `prep_lit.py` and `prep_parl.py` are used for preprocessing. The script `explore_lit.py` is used for exploring the literature data set. The script `bunc2tei.py` is used for converting the corpus data into the I5 schema, and the script `test_bunc2tei.py` is a PyTest file to test the conversion script. Finally, the script `corpus_analysis.py` is used for performing a corpus analysis.
 
 ### Data
 
-There are three datasets which are handled in this repository. The first consists of online artiles from various Bulgarian newspapers. The second dataset, the so-called Chitanka corpus (`chitanka_esc_prep`), contains literature data from various Bulgarian authors, but also translated pieces, that all belong to different literary text types. The third corpus is the ParlaMint corpus (`parlamint_esc_prep`). It contains parliament debates held in the Bulgarian parliament from 2014 up until 2022. 
+There are three data sets which are handled in this repository. The first consists of online artiles from various Bulgarian newspapers. The second data set, the so-called Chitanka corpus, contains literature data from various Bulgarian authors, but also translated pieces, that all belong to different literary text types. The third data set is the ParlaMint corpus. It contains parliament debates held in the Bulgarian parliament from 2014 up until 2022. A sample of each data set can be found in the folder named `sample`, whereas the result of converting the sample files is stored in `sample_corpus.xml`.
 
 ### Usage
 
@@ -42,5 +42,8 @@ The script `bunc2tei.py` can be executed with the command `bunc2tei.py *.xml > c
 3. `Create_tree` creates a new xml tree with the element `teiDoc` as its root. All relevant elements are then inserted at the desired position in the xml tree and filled with the data from the dictionary. 
 4. The resulting trees are appended to the corpus tree.
  
-#### Testing the conversion tool: `test_bunc2tei.py
+#### Testing the conversion tool: `test_bunc2tei.py`
+This is a PyTest file. It can be executed by the command `pytest`. This command automatically executes all files that are of the form `test_*.py` or `*_test.py`. The tests are performed on the sample corpus. The script checks whether a set of assumptions are true or false for the output of the script `bunc2tei.py`.
 
+#### Performing a corpus analysis: `corpus_analysis.py`
+The script can be executed with the commmand `corpus_analysis.py`. However, in order for it to be executed correctly, the Krill files and the corresponding index are both needed (I can provide these files in case of interest). To initialize KorAP locally, see https://github.com/KorAP/KorAP-Docker. The script uses a localhost address to create an instance of a KorAP-Connection for the Bulgarian corpus and then analyzes it with respect to the given queries. 
