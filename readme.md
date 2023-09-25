@@ -42,5 +42,8 @@ The script `bunc2tei.py` can be executed with the command `bunc2tei.py *.xml > c
 3. `Create_tree` creates a new xml tree with the element `teiDoc` as its root. All relevant elements are then inserted at the desired position in the xml tree and filled with the data from the dictionary. 
 4. The resulting trees are appended to the corpus tree.
  
-#### Testing the conversion tool: `test_bunc2tei.py
+#### Testing the conversion tool: `test_bunc2tei.py`
+This is a pytest file. It can be executed by the command `pytest`. This command automatically executes all files that are of the form `test_*.py` or `*_test.py`. The tests are performed on the sample corpus. The script checks whether a set of assumptions are true or false for the output of the script. 
 
+#### Performing a corpus analysis: `corpus_analysis.py`
+The script can be executed with the commmand `corpus_analysis.py`. However, in order for it to be executed correctly, the Krill files and the corresponding index are both needed (I can provide these files in case of interest). To initialize KorAP locally, see https://github.com/KorAP/KorAP-Docker. The script uses the localhost address to create an instance of a KorAP-Connection for the Bulgarian corpus and then analyzes it with respect to the given queries. 
