@@ -1,6 +1,6 @@
-## Creating a I5-corpus file out of XML-TEI documents from various Bulgarian corpora
+## Converting various Bulgarian XML-TEI documents into an I5 corpus file
 
-This tool contains various python scripts. The scripts `escape.py`, `prep_lit.py` and `prep_parl.py` are for preprocessing. The script `explore_lit.py` simply explores the Chitanka corpus (literature dataset). Finally, the script `bunc2tei.py` is for converting the corpus data into the I5 schema, and the script `test_bunc2tei.py` is a PyTest file to test the conversion script. 
+This tool contains various python scripts. The scripts `escape.py`, `prep_lit.py` and `prep_parl.py` are used for preprocessing. The script `explore_lit.py` is used for exploring the literature data set. The script `bunc2tei.py` is used for converting the corpus data into the I5 schema, and the script `test_bunc2tei.py` is a PyTest file to test the conversion script. Finally, the script `corpus_analysis.py` is used for performing a corpus analysis.
 
 ### Data
 
@@ -43,7 +43,7 @@ The script `bunc2tei.py` can be executed with the command `bunc2tei.py *.xml > c
 4. The resulting trees are appended to the corpus tree.
  
 #### Testing the conversion tool: `test_bunc2tei.py`
-This is a pytest file. It can be executed by the command `pytest`. This command automatically executes all files that are of the form `test_*.py` or `*_test.py`. The tests are performed on the sample corpus. The script checks whether a set of assumptions are true or false for the output of the script `bunc2tei.py`.
+This is a PyTest file. It can be executed by the command `pytest`. This command automatically executes all files that are of the form `test_*.py` or `*_test.py`. The tests are performed on the sample corpus. The script checks whether a set of assumptions are true or false for the output of the script `bunc2tei.py`.
 
 #### Performing a corpus analysis: `corpus_analysis.py`
 The script can be executed with the commmand `corpus_analysis.py`. However, in order for it to be executed correctly, the Krill files and the corresponding index are both needed (I can provide these files in case of interest). To initialize KorAP locally, see https://github.com/KorAP/KorAP-Docker. The script uses a localhost address to create an instance of a KorAP-Connection for the Bulgarian corpus and then analyzes it with respect to the given queries. 
