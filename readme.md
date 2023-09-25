@@ -4,7 +4,7 @@ This tool contains various python scripts. The scripts `escape.py`, `prep_lit.py
 
 ### Data
 
-There are three datasets which are handled in this repository. The first consists of online artiles from various Bulgarian newspapers. The second dataset, the so-called Chitanka corpus (`chitanka_esc_prep`), contains literature data from various Bulgarian authors, but also translated pieces, that all belong to different literary text types. The third corpus is the ParlaMint corpus (`parlamint_esc_prep`). It contains parliament debates held in the Bulgarian parliament from 2014 up until 2022. 
+There are three data sets which are handled in this repository. The first consists of online artiles from various Bulgarian newspapers. The second data set, the so-called Chitanka corpus, contains literature data from various Bulgarian authors, but also translated pieces, that all belong to different literary text types. The third data set is the ParlaMint corpus. It contains parliament debates held in the Bulgarian parliament from 2014 up until 2022. A sample of each data set can be found in the folder named `sample`, whereas the result of converting the sample files is stored in `sample_corpus.xml`.
 
 ### Usage
 
